@@ -13,6 +13,8 @@ public class CameraScript : MonoBehaviour {
         playerObject.AddComponent<Player>();
         playerRenderer.sprite = playerSprite;
 
+        gameObject.transform.position = new Vector3(0,0,-15);
+
     }
 	
 	// Update is called once per frame
