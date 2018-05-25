@@ -10,6 +10,9 @@ public class Player : Character {
     Vector2 accelerationY;
     Vector2 gravity;
     float stopMultiplier;
+    bool airborne;
+    int jumpTimer;
+    int maxJump;
 
     public new void Start()
     {
@@ -20,6 +23,9 @@ public class Player : Character {
         accelerationY = new Vector2(0, 0.15F);
         gravity = new Vector2(0, -0.1F);
         stopMultiplier = 0.6F;
+        airborne = false;
+        jumpTimer = 0;
+        maxJump = 8;
     }
 
     public new void Update() {
@@ -43,7 +49,7 @@ public class Player : Character {
             }
             else
             {
-                velocity *= (1 + stopMultiplier) / 2;
+                velocity.x *= (1 + stopMultiplier) / 2;
             }
         }
         // If only one of right / left pressed
@@ -53,7 +59,7 @@ public class Player : Character {
             {
                 if (velocity.x < 0)
                 {
-                    velocity *= stopMultiplier;
+                    velocity.x *= stopMultiplier;
                 }
                 velocity += accelerationX;
             }
@@ -61,28 +67,58 @@ public class Player : Character {
             {
                 if (velocity.x > 0)
                 {
-                    velocity *= stopMultiplier;
+                    velocity.x *= stopMultiplier;
                 }
                 velocity -= accelerationX;
             }
         }
 
-        if (Input.GetKey(KeyCode.UpArrow))
+        //Jump if the up key is held, and the jump wasn't too long
+        if (Input.GetKey(KeyCode.UpArrow) && jumpTimer <= maxJump)
         {
+            // Makes jump explosive at the beginning
+            if (jumpTimer < 2)
+            {
+                velocity += 1.5F * accelerationY;
+            }
+            //Resets jump after initial burst
+            if (jumpTimer == 3)
+            {
+                velocity -= 1.5F * accelerationY;
+            }
             velocity += accelerationY;
+            jumpTimer += 1;
+            airborne = true;
+        }
+        //If jump key released, then can't jump again
+        if (Input.GetKeyUp(KeyCode.UpArrow))
+        {
+            jumpTimer = maxJump;
         }
         if (currentPosition.y > -3)
         {
+            airborne = true;
+        }
+        //Check if gravity should be applied
+        if (airborne)
+        {
             velocity += gravity;
+        }
+        else
+        {
+            velocity.y = 0;
         }
 
         movementThisFrame += velocity;
         gameObject.transform.position = currentPosition + movementThisFrame;
 
-        //Adjustments
+        //Collision with ground (right now it's collision with some line)
         if (gameObject.transform.position.y < -3)
         {
+            airborne = false;
+            //Reset jump timer
+            jumpTimer = 0;
             gameObject.transform.position = new Vector2(gameObject.transform.position.x, -3);
-        }
+        } 
     }
 }
