@@ -7,7 +7,9 @@ public class Player : Character {
     Vector2 velocity;
     Vector2 maxVelocity;
     Vector2 accelerationX;
+    Vector2 accelerationY;
     Vector2 gravity;
+    float stopMultiplier;
 
     public new void Start()
     {
@@ -15,11 +17,19 @@ public class Player : Character {
         velocity = new Vector2(0, 0);
         maxVelocity = new Vector2(0.8F, 0);
         accelerationX = new Vector2(0.05F, 0);
+        accelerationY = new Vector2(0, 0.15F);
         gravity = new Vector2(0, -0.1F);
+        stopMultiplier = 0.6F;
     }
 
     public new void Update() {
         base.Update();
+        CheckUserMovement();
+    }
+
+    // Helper method to check user key presses related to movement
+    private void CheckUserMovement()
+    {
         Vector2 movementThisFrame = new Vector2(0, 0);
         Vector2 currentPosition = gameObject.transform.position;
 
@@ -33,7 +43,7 @@ public class Player : Character {
             }
             else
             {
-                velocity *= 0.9F;
+                velocity *= (1 + stopMultiplier) / 2;
             }
         }
         // If only one of right / left pressed
@@ -43,7 +53,7 @@ public class Player : Character {
             {
                 if (velocity.x < 0)
                 {
-                    velocity *= 0.6F;
+                    velocity *= stopMultiplier;
                 }
                 velocity += accelerationX;
             }
@@ -51,17 +61,18 @@ public class Player : Character {
             {
                 if (velocity.x > 0)
                 {
-                    velocity *= 0.6F;
+                    velocity *= stopMultiplier;
                 }
                 velocity -= accelerationX;
             }
         }
-        
+
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            velocity.y += 0.2F;
+            velocity += accelerationY;
         }
-        if (currentPosition.y > -3) {
+        if (currentPosition.y > -3)
+        {
             velocity += gravity;
         }
 
