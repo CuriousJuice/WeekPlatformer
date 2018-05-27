@@ -23,6 +23,13 @@ public class GenerateStage : MonoBehaviour{
             spriterenderer.sprite = platformsprite;
             sprites.Add(platformsprite);
         }
+        //Adds some triangle hazards
+        for(int i = 0; i < 4; i++)
+        {
+            GameObject triangle = Resources.Load("Triangle") as GameObject;
+            Instantiate(triangle, new Vector2(-9 + i, 0), Quaternion.identity);
+        }
+
         gameObject.transform.position = new Vector3(0, 0, -15);
     }
 }
