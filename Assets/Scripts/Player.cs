@@ -39,12 +39,11 @@ public class Player : Character {
         Debug.Log(collision.gameObject.name);
         if(collision.gameObject.name == "Surface(Clone)")
         {
-            Debug.Log("Collided");
             airborne = false;
             velocity.y = 0;
             jumpTimer = 0;
             gameObject.transform.position = new Vector2(gameObject.transform.position.x,
-                collision.gameObject.transform.position.y + collision.gameObject.transform.lossyScale.y);
+                collision.gameObject.transform.position.y + 1 - collision.gameObject.transform.lossyScale.y);
         }
         
         if(collision.gameObject.name == "Triangle(Clone)")
