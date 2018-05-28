@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CameraScript : MonoBehaviour {
     private GameObject player;
+    private CreateCollisions collision;
     private Vector3 distance;
     private float distanceOffset;
 
@@ -21,6 +22,7 @@ public class CameraScript : MonoBehaviour {
         playerRenderer.sprite = playerSprite;
 
         //Initial camera position
+        collision = new CreateCollisions(player);
         gameObject.transform.position = new Vector3(0,0,-15);
     }
 	
@@ -36,5 +38,6 @@ public class CameraScript : MonoBehaviour {
             gameObject.transform.position = new Vector3(player.transform.position.x + distanceOffset,
                 gameObject.transform.position.y, gameObject.transform.position.z);
         }
+        collision.Update();
 	}
 }
