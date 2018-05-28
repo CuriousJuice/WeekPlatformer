@@ -36,10 +36,23 @@ public class Player : Character {
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Collided");
-        airborne = false;
-        velocity.y = 0;
-        jumpTimer = 0;
+        Debug.Log(collision.gameObject.name);
+        if(collision.gameObject.name == "Surface(Clone)")
+        {
+            Debug.Log("Collided");
+            airborne = false;
+            velocity.y = 0;
+            jumpTimer = 0;
+            gameObject.transform.position = new Vector2(gameObject.transform.position.x,
+                collision.gameObject.transform.position.y + collision.gameObject.transform.lossyScale.y);
+        }
+        
+        if(collision.gameObject.name == "Triangle(Clone)")
+        {
+            Debug.Log("Die");
+            gameObject.transform.position = new Vector2(0, 0);
+        }
+        
     }
 
     // Helper method to check user key presses related to movement
