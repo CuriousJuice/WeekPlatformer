@@ -42,6 +42,6 @@ public class CameraScript : MonoBehaviour {
             gameObject.transform.position = new Vector3(player.transform.position.x + distanceOffset,
                 gameObject.transform.position.y, gameObject.transform.position.z);
         }
-        collision.Update();
+        //collision.Update();
     }
 }

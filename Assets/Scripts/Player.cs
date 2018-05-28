@@ -33,10 +33,14 @@ public class Player : Character {
         CheckUserMovement();
     }
 
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    Destroy(collision.gameObject);
-    //}
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log("Collided");
+        airborne = false;
+        velocity.y = 0;
+        jumpTimer = 0;
+    }
 
     // Helper method to check user key presses related to movement
     private void CheckUserMovement()
@@ -79,21 +83,25 @@ public class Player : Character {
         }
 
         //Jump if the up key is held, and the jump wasn't too long
-        if (Input.GetKey(KeyCode.UpArrow) && jumpTimer <= maxJump)
+        if (Input.GetKey(KeyCode.UpArrow) && jumpTimer < maxJump)
         {
             // Makes jump explosive at the beginning
             if (jumpTimer < 2)
             {
                 velocity += 1.5F * accelerationY;
+                airborne = true;
             }
             //Resets jump after initial burst
             if (jumpTimer == 3)
             {
                 velocity -= 1.5F * accelerationY;
             }
-            velocity += accelerationY;
-            jumpTimer += 1;
-            airborne = true;
+            if (airborne)
+            {
+                velocity += accelerationY;
+                jumpTimer += 1;
+            }
+            
         }
         //If jump key released, then can't jump again
         if (Input.GetKeyUp(KeyCode.UpArrow))
@@ -123,10 +131,10 @@ public class Player : Character {
         gameObject.transform.position = currentPosition + movementThisFrame;
 
         //For testing
-        if (gameObject.transform.position.y < -5)
+        if (gameObject.transform.position.y < -6)
         {
             airborne = false;
-            gameObject.transform.position = new Vector2(gameObject.transform.position.x, -5);
+            gameObject.transform.position = new Vector2(gameObject.transform.position.x, -6);
             jumpTimer = 0;
         }
 
