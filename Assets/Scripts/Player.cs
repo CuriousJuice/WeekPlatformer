@@ -10,7 +10,7 @@ public class Player : Character {
     Vector2 accelerationY;
     Vector2 gravity;
     float stopMultiplier;
-    public bool airborne;
+    bool airborne;
     int jumpTimer;
     int maxJump;
 
@@ -112,23 +112,6 @@ public class Player : Character {
         movementThisFrame += velocity;
         gameObject.transform.position = currentPosition + movementThisFrame;
 
-        //Collision with ground (right now it's collision with some line)
-        //if (gameObject.transform.position.y < -3)
-        //{
-        //    airborne = false;
-        //    //Reset jump timer
-        //    jumpTimer = 0;
-        //    gameObject.transform.position = new Vector2(gameObject.transform.position.x, -3);
-        //} 
-    }
-
-    void OnCollisionEnter(Collision col)
-    {
-        Debug.Log("Collided");
-        if(col.gameObject.name == "Surface")
-        {
-            airborne = false;
-        }
     }
 
     public void setAirborne(bool value) { airborne = value; }

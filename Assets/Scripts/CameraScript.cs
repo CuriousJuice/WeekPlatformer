@@ -21,8 +21,10 @@ public class CameraScript : MonoBehaviour {
         player.AddComponent<Player>();
         playerRenderer.sprite = playerSprite;
 
-        //Initial camera position
+        //Set collision
         collision = new CreateCollisions(player);
+
+        //Initial camera position
         gameObject.transform.position = new Vector3(0,0,-15);
     }
 	
