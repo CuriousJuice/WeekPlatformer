@@ -33,10 +33,16 @@ public class Player : Character {
         CheckUserMovement();
     }
 
-
+    /**
+     * Responsble for handling collisions for the following objects:
+     * Walls
+     * Spikes
+     * Surface
+     **/
     void OnCollisionEnter2D(Collision2D collision)
     {
         Debug.Log(collision.gameObject.name);
+        //Ground
         if(collision.gameObject.name == "Surface(Clone)")
         {
             airborne = false;
@@ -44,12 +50,31 @@ public class Player : Character {
             jumpTimer = 0;
             gameObject.transform.position = new Vector2(gameObject.transform.position.x,
                 collision.gameObject.transform.position.y + 1 - collision.gameObject.transform.lossyScale.y);
+      
         }
         
+        //Spikes
         if(collision.gameObject.name == "Triangle(Clone)")
         {
             Debug.Log("Die");
-           // Destroy(gameObject);
+            Destroy(gameObject);
+        }
+
+        //Wall
+        if (collision.gameObject.name == "VSurface(Clone)")
+        {
+            Debug.Log("WALL");
+            //Left
+            if (gameObject.transform.position.x < collision.gameObject.transform.position.x) {
+                Debug.Log("Right through");
+                gameObject.transform.position = new Vector2(collision.gameObject.transform.position.x - 1.2f, gameObject.transform.position.y);
+            }
+            //Right
+            if(gameObject.transform.position.x > collision.gameObject.transform.position.x)
+            {
+                gameObject.transform.position = new Vector2(collision.gameObject.transform.position.x + 1.2f, gameObject.transform.position.y);
+            }
+            velocity.x = 0;
         }
         
     }
@@ -57,6 +82,7 @@ public class Player : Character {
     // Helper method to check user key presses related to movement
     private void CheckUserMovement()
     {
+        Debug.Log(velocity.x);
         Vector2 movementThisFrame = new Vector2(0, 0);
         Vector2 currentPosition = gameObject.transform.position;
 
