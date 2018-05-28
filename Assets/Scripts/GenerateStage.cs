@@ -23,8 +23,9 @@ public class GenerateStage : MonoBehaviour{
         //Adds some triangle hazards
         for(int i = 0; i < 4; i++)
         {
-            GameObject triangle = Resources.Load("Triangle") as GameObject;
-            Instantiate(triangle, new Vector2(-9 + i, 0), Quaternion.identity);
+            GameObject holder = Resources.Load("Triangle") as GameObject;
+            GameObject triangle = Instantiate(holder, new Vector2(-9 + i, 0), Quaternion.identity);
+            sprites.Add(triangle);
         }
         return sprites;
     }
