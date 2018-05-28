@@ -31,7 +31,7 @@ public class CreateCollisions{
             if ((player.transform.position.y < platform.transform.position.y + platform.transform.lossyScale.y && ((player.transform.position.x >=
                 platform.transform.position.x && player.transform.position.x <= (platform.transform.position.x + platform.transform.lossyScale.x)) ||
                 ((player.transform.position.x + player.transform.lossyScale.x) >= platform.transform.position.x && (player.transform.position.x + 
-                player.transform.lossyScale.x) <= (platform.transform.position.x + platform.transform.lossyScale.x))))
+                player.transform.lossyScale.x) <= (platform.transform.position.x + platform.transform.lossyScale.x)))))
             {
                 //Set the players state to grounded and adjust the height of the player appropriately
                 player.GetComponent<Player>().setAirborne(false);
