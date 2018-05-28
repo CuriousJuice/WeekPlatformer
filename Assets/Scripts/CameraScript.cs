@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class CameraScript : MonoBehaviour {
     private GameObject player;
-    private CreateCollisions collision;
+    //private CreateCollisions collision;
+    GenerateStage generator;
     private Vector3 distance;
     private float distanceOffset;
 
@@ -22,9 +23,6 @@ public class CameraScript : MonoBehaviour {
         //playerRenderer.sprite = playerSprite;
         GameObject holder = Resources.Load("PlayerPref") as GameObject;
         player = Instantiate(holder, new Vector2(0, 0), Quaternion.identity);
-
-        //Set collision
-        collision = new CreateCollisions(player);
 
         //Initial camera position
         gameObject.transform.position = new Vector3(0,0,-15);

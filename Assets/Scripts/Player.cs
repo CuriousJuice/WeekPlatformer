@@ -49,7 +49,7 @@ public class Player : Character {
         if(collision.gameObject.name == "Triangle(Clone)")
         {
             Debug.Log("Die");
-            gameObject.transform.position = new Vector2(0, 0);
+           // Destroy(gameObject);
         }
         
     }

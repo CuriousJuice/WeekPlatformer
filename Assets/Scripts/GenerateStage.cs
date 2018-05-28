@@ -8,7 +8,7 @@ public class GenerateStage : MonoBehaviour{
     /**
      * Used to place collidable surfaces for player interaction.
      * */
-	public ArrayList Generate () {
+	public void Start () {
         //Texture2D platformTexture = Resources.Load("Surface") as Texture2D; //set texture
         ArrayList sprites = new ArrayList(); //keep track of each sprite created.
 
@@ -27,6 +27,6 @@ public class GenerateStage : MonoBehaviour{
             GameObject triangle = Instantiate(holder, new Vector2(-9 + i, 0), Quaternion.identity);
             sprites.Add(triangle);
         }
-        return sprites;
+        //return sprites;
     }
 }
