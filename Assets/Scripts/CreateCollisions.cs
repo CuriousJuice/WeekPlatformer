@@ -34,7 +34,7 @@ public class CreateCollisions{
                 player.transform.lossyScale.x) <= (platform.transform.position.x + platform.transform.lossyScale.x)))))
             {
                 //Set the players state to grounded and adjust the height of the player appropriately
-                player.GetComponent<Player>().setAirborne(false);
+                player.GetComponent<Player>().SetAirborne(false);
                 player.transform.position = new Vector2(player.transform.position.x, 
                     platform.transform.position.y + platform.transform.lossyScale.y);
                 break; //used to terminate for loop early when collision is found.
@@ -42,7 +42,7 @@ public class CreateCollisions{
             //Sets the player to airborne if no collision is detected.
             else
             {
-                player.GetComponent<Player>().setAirborne(true);
+                player.GetComponent<Player>().SetAirborne(true);
             }
         }
         //Debug.Log(player.GetComponent<Player>().airborne);

@@ -15,8 +15,4 @@ public class Enemy : Character {
         base.Update();
 	}
 
-    private void OnCollisionEnter(Collision collision)
-    {
-            
-    }
 }

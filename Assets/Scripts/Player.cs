@@ -33,6 +33,11 @@ public class Player : Character {
         CheckUserMovement();
     }
 
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    Destroy(collision.gameObject);
+    //}
+
     // Helper method to check user key presses related to movement
     private void CheckUserMovement()
     {
@@ -99,6 +104,9 @@ public class Player : Character {
         //{
         //    airborne = true;
         //}
+
+        
+
         //Check if gravity should be applied
         if (airborne)
         {
@@ -109,10 +117,20 @@ public class Player : Character {
             velocity.y = 0;
         }
 
+        
+
         movementThisFrame += velocity;
         gameObject.transform.position = currentPosition + movementThisFrame;
 
+        //For testing
+        if (gameObject.transform.position.y < -5)
+        {
+            airborne = false;
+            gameObject.transform.position = new Vector2(gameObject.transform.position.x, -5);
+            jumpTimer = 0;
+        }
+
     }
 
-    public void setAirborne(bool value) { airborne = value; }
+    public void SetAirborne(bool value) { airborne = value; }
 }

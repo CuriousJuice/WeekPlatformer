@@ -43,5 +43,5 @@ public class CameraScript : MonoBehaviour {
                 gameObject.transform.position.y, gameObject.transform.position.z);
         }
         collision.Update();
-	}
+    }
 }
