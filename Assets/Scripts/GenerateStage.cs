@@ -15,17 +15,17 @@ public class GenerateStage : MonoBehaviour{
         //Currently makes ground for left to right of the screen, 18 blocks)
         for (int i = 0; i < 18; i++)
         {
-            GameObject platform = Resources.Load("Surface") as GameObject;
-            Instantiate(platform, new Vector2(-9 + i, -5), Quaternion.identity);
+            GameObject holder = Resources.Load("Surface") as GameObject;
+            GameObject platform = Instantiate(holder, new Vector2(-9 + i, -5), Quaternion.identity);
             sprites.Add(platform);
         }
+
         //Adds some triangle hazards
         for(int i = 0; i < 4; i++)
         {
             GameObject triangle = Resources.Load("Triangle") as GameObject;
             Instantiate(triangle, new Vector2(-9 + i, 0), Quaternion.identity);
         }
-        Debug.Log(((GameObject) sprites[0]).transform.position.y);
         return sprites;
     }
 }

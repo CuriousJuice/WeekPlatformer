@@ -14,12 +14,14 @@ public class CameraScript : MonoBehaviour {
         distance = Camera.main.ViewportToWorldPoint(new Vector3(0,0,0));
         distanceOffset = distance.x * -0.75F;
 
-        Texture2D playerTexture = Resources.Load("square") as Texture2D;
-        Sprite playerSprite = Sprite.Create(playerTexture, new Rect(new Vector2(0,0), new Vector2(100, 100)), new Vector2(0, 0));
-        player = new GameObject("Player");
-        SpriteRenderer playerRenderer = player.AddComponent<SpriteRenderer>();
-        player.AddComponent<Player>();
-        playerRenderer.sprite = playerSprite;
+        //Texture2D playerTexture = Resources.Load("square") as Texture2D;
+        //Sprite playerSprite = Sprite.Create(playerTexture, new Rect(new Vector2(0,0), new Vector2(100, 100)), new Vector2(0, 0));
+        //player = new GameObject("Player");
+        //SpriteRenderer playerRenderer = player.AddComponent<SpriteRenderer>();
+        //player.AddComponent<Player>();
+        //playerRenderer.sprite = playerSprite;
+        GameObject holder = Resources.Load("PlayerPref") as GameObject;
+        player = Instantiate(holder, new Vector2(0, 0), Quaternion.identity);
 
         //Set collision
         collision = new CreateCollisions(player);
