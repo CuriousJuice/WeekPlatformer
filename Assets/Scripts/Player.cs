@@ -32,13 +32,17 @@ public class Player : Character {
 
     public new void Update() {
         base.Update();
+        CheckUserMovement();
     }
 
     private void FixedUpdate()
     {
         //Debug.Log(GetComponent<SpriteRenderer>().bounds.size.y);
-        CheckUserMovement();
         GetComponent<BoxCollider2D>().offset = new Vector2(0, movementThisFrame.y);
+        // Move the player accordingly
+        Vector2 currentPosition = gameObject.transform.position;
+        gameObject.transform.position = currentPosition + movementThisFrame;
+        movementThisFrame = new Vector2(0, 0);
     }
 
     /**
@@ -96,9 +100,7 @@ public class Player : Character {
     {
         //Debug.Log(velocity.x);
         
-        Vector2 currentPosition = gameObject.transform.position;
-        gameObject.transform.position = currentPosition + movementThisFrame;
-        movementThisFrame = new Vector2(0, 0);
+        
 
         //If neither right/left pressed or both
         if (!(Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow))
