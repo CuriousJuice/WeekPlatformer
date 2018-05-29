@@ -32,8 +32,13 @@ public class Player : Character {
 
     public new void Update() {
         base.Update();
+    }
+
+    private void FixedUpdate()
+    {
+        //Debug.Log(GetComponent<SpriteRenderer>().bounds.size.y);
         CheckUserMovement();
-        GetComponent<BoxCollider2D>().offset = new Vector2(0, movementThisFrame.y + velocity.y);
+        GetComponent<BoxCollider2D>().offset = new Vector2(0, movementThisFrame.y);
     }
 
     /**
@@ -44,10 +49,11 @@ public class Player : Character {
      **/
     void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log(collision.gameObject.name);
+        //Debug.Log(collision.gameObject.name);
         //Ground
         if(collision.gameObject.name == "Surface(Clone)")
         {
+            Debug.Log("Collided with surface");
             airborne = false;
             velocity.y = 0;
             movementThisFrame = new Vector2(movementThisFrame.x, 0);
@@ -88,7 +94,7 @@ public class Player : Character {
     // Helper method to check user key presses related to movement
     private void CheckUserMovement()
     {
-        Debug.Log(velocity.x);
+        //Debug.Log(velocity.x);
         
         Vector2 currentPosition = gameObject.transform.position;
         gameObject.transform.position = currentPosition + movementThisFrame;
