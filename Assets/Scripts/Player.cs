@@ -48,9 +48,11 @@ public class Player : Character {
             airborne = false;
             velocity.y = 0;
             jumpTimer = 0;
+            //Gets rectangle of floor
+            GameObject floor = collision.gameObject;
+            float floorHeight = floor.GetComponent<SpriteRenderer>().bounds.size.y;
             gameObject.transform.position = new Vector2(gameObject.transform.position.x,
-                collision.gameObject.transform.position.y + 1 - collision.gameObject.transform.lossyScale.y);
-      
+                collision.gameObject.transform.position.y + floorHeight);
         }
         
         //Spikes
