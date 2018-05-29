@@ -9,6 +9,7 @@ public class Player : Character {
     Vector2 accelerationX;
     Vector2 accelerationY;
     Vector2 gravity;
+    Vector2 movementThisFrame;
     float stopMultiplier;
     bool airborne;
     int jumpTimer;
@@ -22,6 +23,7 @@ public class Player : Character {
         accelerationX = new Vector2(0.05F, 0);
         accelerationY = new Vector2(0, 0.15F);
         gravity = new Vector2(0, -0.1F);
+        movementThisFrame = new Vector2(0, 0);
         stopMultiplier = 0.6F;
         airborne = true;
         jumpTimer = 0;
@@ -31,6 +33,7 @@ public class Player : Character {
     public new void Update() {
         base.Update();
         CheckUserMovement();
+        GetComponent<BoxCollider2D>().offset = new Vector2(0, movementThisFrame.y + velocity.y);
     }
 
     /**
@@ -47,6 +50,7 @@ public class Player : Character {
         {
             airborne = false;
             velocity.y = 0;
+            movementThisFrame = new Vector2(movementThisFrame.x, 0);
             jumpTimer = 0;
             //Gets rectangle of floor
             GameObject floor = collision.gameObject;
@@ -85,8 +89,10 @@ public class Player : Character {
     private void CheckUserMovement()
     {
         Debug.Log(velocity.x);
-        Vector2 movementThisFrame = new Vector2(0, 0);
+        
         Vector2 currentPosition = gameObject.transform.position;
+        gameObject.transform.position = currentPosition + movementThisFrame;
+        movementThisFrame = new Vector2(0, 0);
 
         //If neither right/left pressed or both
         if (!(Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow))
@@ -165,10 +171,10 @@ public class Player : Character {
             velocity.y = 0;
         }
 
-        
+
 
         movementThisFrame += velocity;
-        gameObject.transform.position = currentPosition + movementThisFrame;
+        
 
         //For testing
         if (gameObject.transform.position.y < -6)
