@@ -16,6 +16,7 @@ public class GenerateStage : MonoBehaviour{
         {
             GameObject holder = Resources.Load("Surface") as GameObject;
             GameObject platform = Instantiate(holder, new Vector2(-9 + i, -5), Quaternion.identity);
+            Instantiate(holder, new Vector2(3, 0), Quaternion.identity);
            // sprites.Add(platform);
         }
 

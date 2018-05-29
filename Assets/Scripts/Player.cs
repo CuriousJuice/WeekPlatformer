@@ -57,16 +57,27 @@ public class Player : Character {
         //Ground
         if(collision.gameObject.name == "Surface(Clone)")
         {
-            Debug.Log("Collided with surface");
-            airborne = false;
-            velocity.y = 0;
-            movementThisFrame = new Vector2(movementThisFrame.x, 0);
-            jumpTimer = 0;
             //Gets rectangle of floor
             GameObject floor = collision.gameObject;
-            float floorHeight = floor.GetComponent<SpriteRenderer>().bounds.size.y;
-            gameObject.transform.position = new Vector2(gameObject.transform.position.x,
-                collision.gameObject.transform.position.y + floorHeight);
+            if (velocity.y < 0)
+            {
+                Debug.Log("Collided with surface up");
+                float floorHeight = floor.GetComponent<SpriteRenderer>().bounds.size.y;
+                gameObject.transform.position = new Vector2(gameObject.transform.position.x,
+                    collision.gameObject.transform.position.y + floorHeight);
+                jumpTimer = 0;
+                airborne = false;
+            }
+            else if (velocity.y > 0)
+            {
+                Debug.Log("Collided with surface down");
+                float floorHeight = floor.GetComponent<SpriteRenderer>().bounds.size.y;
+                gameObject.transform.position = new Vector2(gameObject.transform.position.x,
+                    collision.gameObject.transform.position.y - floorHeight);
+                jumpTimer = maxJump;
+            }
+            movementThisFrame = new Vector2(movementThisFrame.x, 0);
+            velocity.y = 0;
         }
         
         //Spikes
