@@ -83,17 +83,17 @@ public class Player : Character {
         //Spikes
         if(collision.gameObject.name == "Triangle(Clone)")
         {
-            Debug.Log("Die");
+            //Debug.Log("Die");
             Destroy(gameObject);
         }
 
         //Wall
         if (collision.gameObject.name == "VSurface(Clone)")
         {
-            Debug.Log("WALL");
+            //Debug.Log("WALL");
             //Left
             if (gameObject.transform.position.x < collision.gameObject.transform.position.x) {
-                Debug.Log("Right through");
+                //Debug.Log("Right through");
                 gameObject.transform.position = new Vector2(collision.gameObject.transform.position.x - 1.2f, gameObject.transform.position.y);
             }
             //Right
