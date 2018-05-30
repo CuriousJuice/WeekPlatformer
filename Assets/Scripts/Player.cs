@@ -15,6 +15,8 @@ public class Player : Character {
     int jumpTimer;
     int maxJump;
     Vector2 playerDimensions;
+    bool jumpLock; // tells if jump should be locked starting from this frame
+    bool jumpReset; // tells if jump should be reset this frame
 
     public new void Start()
     {
@@ -30,6 +32,8 @@ public class Player : Character {
         jumpTimer = 0;
         maxJump = 8;
         playerDimensions = new Vector2(GetComponent<SpriteRenderer>().bounds.size.x, GetComponent<SpriteRenderer>().bounds.size.x);
+        jumpLock = false;
+        jumpReset = false;
     }
 
     public new void Update() {
@@ -40,6 +44,7 @@ public class Player : Character {
     private void FixedUpdate()
     {
         //Debug.Log(GetComponent<SpriteRenderer>().bounds.size.y);
+        //Debug.Log(movementThisFrame.y);
         GetComponent<BoxCollider2D>().offset = new Vector2(0, movementThisFrame.y);
         // Move the player accordingly
         Vector2 currentPosition = gameObject.transform.position;
@@ -59,26 +64,36 @@ public class Player : Character {
         //Ground
         if(collision.gameObject.name == "Surface(Clone)")
         {
+         
+
             Debug.Log(transform.position.y + "-" + collision.gameObject.transform.position.y);
             //Gets rectangle of floor
             GameObject floor = collision.gameObject;
+            Debug.Log("COLLIDED");
             if (velocity.y < 0)
             {
-                Debug.Log("Collided with surface up");
+                //Debug.Log("Collided with surface up");
                 float floorHeight = floor.GetComponent<SpriteRenderer>().bounds.size.y;
                 gameObject.transform.position = new Vector2(gameObject.transform.position.x,
                     collision.gameObject.transform.position.y + floorHeight);
-                jumpTimer = 0;
+                //print(gameObject.transform.position.y - floorHeight);
+                //print(collision.gameObject.transform.position.y);
+                jumpReset = true;
                 airborne = false;
             }
             else if (velocity.y > 0)
             {
-                Debug.Log("Collided with surface down");
+                //Debug.Log("Collided with surface down");
                 float floorHeight = floor.GetComponent<SpriteRenderer>().bounds.size.y;
                 gameObject.transform.position = new Vector2(gameObject.transform.position.x,
                     collision.gameObject.transform.position.y - playerDimensions.y);
-                jumpTimer = maxJump;
+                jumpLock = true;
             }
+            if(velocity.y == 0 && transform.position.y > collision.gameObject.transform.position.y)
+            {
+                jumpReset = true;
+            }
+
             movementThisFrame = new Vector2(movementThisFrame.x, 0);
             velocity.y = 0;
         }
@@ -111,7 +126,7 @@ public class Player : Character {
                 velocity.y = 0;
                 gameObject.transform.position = new Vector2(gameObject.transform.position.x,
                     collision.gameObject.transform.position.y + collision.gameObject.GetComponent<SpriteRenderer>().bounds.size.y);
-                jumpTimer = 0;
+                jumpReset = true;
                 airborne = false;
             }
         }
@@ -130,8 +145,19 @@ public class Player : Character {
     private void CheckUserMovement()
     {
         //Debug.Log(velocity.x);
-        
-        
+
+        // Deals with jump resetting
+        if (jumpLock)
+        {
+            jumpTimer = maxJump;
+            jumpLock = false;
+        }
+
+        if (jumpReset)
+        {
+            jumpTimer = 0;
+            jumpReset = false;
+        }
 
         //If neither right/left pressed or both
         if (!(Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow))
@@ -191,7 +217,7 @@ public class Player : Character {
         //If jump key released, then can't jump again
         if (Input.GetKeyUp(KeyCode.UpArrow))
         {
-            jumpTimer = maxJump;
+            jumpLock = true;
         }
         //if (currentPosition.y > -3)
         //{
@@ -226,7 +252,7 @@ public class Player : Character {
         {
             airborne = false;
             gameObject.transform.position = new Vector2(gameObject.transform.position.x, -6);
-            jumpTimer = 0;
+            jumpReset = true;
         }
 
     }
