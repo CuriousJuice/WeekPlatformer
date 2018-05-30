@@ -92,19 +92,36 @@ public class Player : Character {
         {
             //Debug.Log("WALL");
             //Left
-            if (gameObject.transform.position.x < collision.gameObject.transform.position.x) {
-                //Debug.Log("Right through");
-                gameObject.transform.position = new Vector2(collision.gameObject.transform.position.x - 1.2f, gameObject.transform.position.y);
+            if (velocity.x > 0) {
+                gameObject.transform.position = new Vector2(collision.gameObject.transform.position.x - 1, gameObject.transform.position.y);
             }
             //Right
-            if(gameObject.transform.position.x > collision.gameObject.transform.position.x)
+            if (velocity.x < 0)
             {
-                gameObject.transform.position = new Vector2(collision.gameObject.transform.position.x + 1.2f, gameObject.transform.position.y);
+                gameObject.transform.position = new Vector2(collision.gameObject.transform.position.x + 1, gameObject.transform.position.y);
             }
             velocity.x = 0;
+
+            if(velocity.y < 0 && gameObject.transform.position.x > collision.gameObject.transform.position.x &&
+                gameObject.transform.position.x < collision.gameObject.transform.position.x + 1)
+            {
+                velocity.y = 0;
+                gameObject.transform.position = new Vector2(gameObject.transform.position.x,
+                    collision.gameObject.transform.position.y + collision.gameObject.GetComponent<SpriteRenderer>().bounds.size.y);
+                jumpTimer = 0;
+                airborne = false;
+            }
         }
         
     }
+
+    //void OnCollisionExit2D(Collision2D collision)
+    //{
+    //    if(collision.gameObject.name == "Surface(Clone)")
+    //    {
+    //        airborne = true;
+    //    }
+    //}
 
     // Helper method to check user key presses related to movement
     private void CheckUserMovement()
@@ -177,6 +194,12 @@ public class Player : Character {
         //{
         //    airborne = true;
         //}
+
+        //Reset remove after development
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            gameObject.transform.position = new Vector2(0, 0);
+        }
 
         
 
