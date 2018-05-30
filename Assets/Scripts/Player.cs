@@ -14,6 +14,7 @@ public class Player : Character {
     bool airborne;
     int jumpTimer;
     int maxJump;
+    Vector2 playerDimensions;
 
     public new void Start()
     {
@@ -28,6 +29,7 @@ public class Player : Character {
         airborne = true;
         jumpTimer = 0;
         maxJump = 8;
+        playerDimensions = new Vector2(GetComponent<SpriteRenderer>().bounds.size.x, GetComponent<SpriteRenderer>().bounds.size.x);
     }
 
     public new void Update() {
@@ -57,6 +59,7 @@ public class Player : Character {
         //Ground
         if(collision.gameObject.name == "Surface(Clone)")
         {
+            Debug.Log(transform.position.y + "-" + collision.gameObject.transform.position.y);
             //Gets rectangle of floor
             GameObject floor = collision.gameObject;
             if (velocity.y < 0)
@@ -73,7 +76,7 @@ public class Player : Character {
                 Debug.Log("Collided with surface down");
                 float floorHeight = floor.GetComponent<SpriteRenderer>().bounds.size.y;
                 gameObject.transform.position = new Vector2(gameObject.transform.position.x,
-                    collision.gameObject.transform.position.y - floorHeight);
+                    collision.gameObject.transform.position.y - playerDimensions.y);
                 jumpTimer = maxJump;
             }
             movementThisFrame = new Vector2(movementThisFrame.x, 0);
