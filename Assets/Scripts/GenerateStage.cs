@@ -37,5 +37,12 @@ public class GenerateStage : MonoBehaviour{
         }
         //return sprites;
 
+        //Add Climables
+        for(int i = 0; i < 3; i++)
+        {
+            GameObject holder = Resources.Load("Climb") as GameObject;
+            GameObject climbable = Instantiate(holder, new Vector2(8, -1 + i), Quaternion.identity);
+        }
+
     }
 }

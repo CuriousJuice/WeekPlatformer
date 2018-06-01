@@ -17,6 +17,7 @@ public class Player : Character {
     Vector2 playerDimensions;
     bool jumpLock; // tells if jump should be locked starting from this frame
     bool jumpReset; // tells if jump should be reset this frame
+    bool climbing;
 
     public new void Start()
     {
@@ -129,6 +130,13 @@ public class Player : Character {
                 jumpReset = true;
                 airborne = false;
             }
+        }
+
+        //Climbables
+        if(collision.gameObject.name == "Climb(Clone)")
+        {
+            climbing = true;
+            Debug.Log(climbing);
         }
         
     }
