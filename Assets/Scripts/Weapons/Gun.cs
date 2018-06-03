@@ -10,15 +10,16 @@ public class Gun : Weapon {
 	// Use this for initialization
 	void Start () {
         player = Camera.main.GetComponent<CameraScript>().GetPlayer();
-        playerMiddle = new Vector2(player.transform.position.x + player.GetComponent<SpriteRenderer>().bounds.size.x / 2,
-            player.transform.position.y + player.GetComponent<SpriteRenderer>().bounds.size.y / 2);
+        //playerMiddle = new Vector2(player.transform.position.x + player.GetComponent<SpriteRenderer>().bounds.size.x / 2,
+        //    player.transform.position.y + player.GetComponent<SpriteRenderer>().bounds.size.y / 2);
+        playerMiddle = new Vector2(player.transform.position.x, player.transform.position.y);
     }
 	
 	// Update is called once per frame
 	void Update () {
         //Update player middle
-    //    playerMiddle = new Vector2(player.transform.position.x + player.GetComponent<SpriteRenderer>().bounds.size.x / 2,
-    //player.transform.position.y + player.GetComponent<SpriteRenderer>().bounds.size.y / 2);
+        //playerMiddle = new Vector2(player.transform.position.x + player.GetComponent<SpriteRenderer>().bounds.size.x / 2,
+        //player.transform.position.y + player.GetComponent<SpriteRenderer>().bounds.size.y / 2);
         playerMiddle = new Vector2(player.transform.position.x, player.transform.position.y);
 
         //Stick to player
@@ -38,7 +39,19 @@ public class Gun : Weapon {
         //Set rotation
         transform.rotation = Quaternion.Euler(0, 0, rotateAngle);
 
+        //If click, fire bullet
+        if (Input.GetMouseButtonDown(0))
+        {
+            FireBullet(playerToMouse);
+        }
 
         //print(rotateAngle);
+    }
+
+    private void FireBullet(Vector2 direction)
+    {
+        GameObject bullet = Resources.Load("bulletFinal") as GameObject;
+        GameObject newBullet = Instantiate(bullet, new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
+        newBullet.GetComponent<Bullet>().Velocity = direction.normalized;
     }
 }
