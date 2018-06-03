@@ -45,4 +45,9 @@ public class CameraScript : MonoBehaviour {
         }
         //collision.Update();
     }
+
+    public GameObject GetPlayer()
+    {
+        return player;
+    }
 }

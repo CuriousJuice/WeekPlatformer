@@ -15,7 +15,7 @@ public class Crosshair : MonoBehaviour {
         Vector2 mouseLocation = new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x,
             Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
         // Affix crosshair to mouse location (Offset by half downwards, then half to the left)
-        gameObject.transform.position = new Vector2(mouseLocation.x - GetComponent<SpriteRenderer>().bounds.size.x / 2,
-            mouseLocation.y - GetComponent<SpriteRenderer>().bounds.size.y / 2);
+        gameObject.transform.position = new Vector3(mouseLocation.x - GetComponent<SpriteRenderer>().bounds.size.x / 2,
+            mouseLocation.y - GetComponent<SpriteRenderer>().bounds.size.y / 2, -0.003F);
 	}
 }

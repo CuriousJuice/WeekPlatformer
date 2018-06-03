@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class WeaponOnStart : MonoBehaviour {
     GameObject crosshair;
-
+    GameObject gun;
+    GameObject player;
 
 	// Use this for initialization
 	void Start () {
+        //Add the crosshair
         Vector2 mouseLocation = new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x,
             Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
 
@@ -23,6 +25,18 @@ public class WeaponOnStart : MonoBehaviour {
 
         //Make cursor invisible
         Cursor.visible = false;
+
+        // Add the gun
+
+        gun = new GameObject();
+        Texture2D gunTexture = Resources.Load("gun") as Texture2D;
+        Sprite gunSprite = Sprite.Create(gunTexture, new Rect(new Vector2(0, 0),
+            new Vector2(gunTexture.width, gunTexture.height)), new Vector2(0, 0));
+        SpriteRenderer gunRenderer = gun.AddComponent<SpriteRenderer>();
+        gun.AddComponent<Gun>();
+        gunRenderer.sprite = gunSprite;
+        //Scale it down
+        //gun.transform.localScale = new Vector3(0.5F, 0.5F, 0.5F);
 
     }
 	
