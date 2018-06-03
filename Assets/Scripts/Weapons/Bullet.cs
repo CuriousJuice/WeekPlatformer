@@ -5,6 +5,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour {
     private readonly float VELOCITY_MAGNITUDE = 1;
     private Vector2 velocity = new Vector2(0, 0);
+    private int deathCounter = 100;
 
 	// Use this for initialization
 	void Start () {
@@ -15,7 +16,15 @@ public class Bullet : MonoBehaviour {
 	void Update () {
         Vector2 currentPosition = transform.position;
         transform.position = currentPosition + VELOCITY_MAGNITUDE * velocity;
-	}
+        if(deathCounter == 0)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            deathCounter--;
+        }
+    }
 
 
 
