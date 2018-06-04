@@ -4,14 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Player : Character {
-    Vector2 velocity;
-    Vector2 maxVelocity;
-    Vector2 accelerationX;
-    Vector2 accelerationY;
-    Vector2 gravity;
-    Vector2 movementThisFrame;
     float stopMultiplier;
-    bool airborne;
     int jumpTimer;
     int maxJump;
     Vector2 playerDimensions;
@@ -42,16 +35,12 @@ public class Player : Character {
         CheckUserMovement();
     }
 
-    private void FixedUpdate()
-    {
-        //Debug.Log(GetComponent<SpriteRenderer>().bounds.size.y);
-        //Debug.Log(movementThisFrame.y);
-        GetComponent<BoxCollider2D>().offset = new Vector2(0, movementThisFrame.y);
-        // Move the player accordingly
-        Vector2 currentPosition = gameObject.transform.position;
-        gameObject.transform.position = currentPosition + movementThisFrame;
-        movementThisFrame = new Vector2(0, 0);
-    }
+    //private new void FixedUpdate()
+    //{
+    //    base.FixedUpdate();
+    //    //Debug.Log(GetComponent<SpriteRenderer>().bounds.size.y);
+    //    //Debug.Log(movementThisFrame.y);
+    //}
 
     /**
      * Responsble for handling collisions for the following objects:
@@ -240,15 +229,7 @@ public class Player : Character {
 
         
 
-        //Check if gravity should be applied
-        if (airborne)
-        {
-            velocity += gravity;
-        }
-        else
-        {
-            velocity.y = 0;
-        }
+        
 
 
 
