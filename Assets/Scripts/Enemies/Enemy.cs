@@ -7,11 +7,13 @@ public class Enemy : Character, IObserver {
 
     Vector2 gameObjectDimensions;
     GameObject healthbar; // This enemy's health bar
+    float health;
+    float maxHealth;
 
 	// Use this for initialization
 	public new void Start () {
         base.Start();
-        velocity = new Vector2(0.1F, 0);
+        velocity = new Vector2(0, 0);
         gameObjectDimensions = new Vector2(GetComponent<SpriteRenderer>().bounds.size.x, GetComponent<SpriteRenderer>().bounds.size.y);
         //Create health bar
         GameObject healthbarObject = Resources.Load("Healthbar") as GameObject;
