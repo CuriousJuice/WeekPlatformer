@@ -31,16 +31,16 @@ public class Player : Character {
     }
 
     public new void Update() {
-        base.Update();
         CheckUserMovement();
+        base.Update();
     }
 
-    //private new void FixedUpdate()
-    //{
-    //    base.FixedUpdate();
-    //    //Debug.Log(GetComponent<SpriteRenderer>().bounds.size.y);
-    //    //Debug.Log(movementThisFrame.y);
-    //}
+    private new void FixedUpdate()
+    {
+        base.FixedUpdate();
+        //Debug.Log(GetComponent<SpriteRenderer>().bounds.size.y);
+        //Debug.Log(movementThisFrame.y);
+    }
 
     /**
      * Responsble for handling collisions for the following objects:
@@ -227,8 +227,6 @@ public class Player : Character {
             gameObject.transform.position = new Vector2(0, 0);
         }
 
-
-        movementThisFrame += velocity;
         
 
         //For testing

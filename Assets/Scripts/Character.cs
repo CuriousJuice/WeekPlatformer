@@ -34,6 +34,7 @@ public class Character : MonoBehaviour {
         {
             velocity.y = 0;
         }
+        movementThisFrame += velocity;
     }
 
     protected void FixedUpdate()
