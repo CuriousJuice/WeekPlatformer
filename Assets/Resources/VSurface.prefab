@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4650577206729276}
   - component: {fileID: 212593841139222940}
   - component: {fileID: 61715889353599528}
+  - component: {fileID: 114916989743322642}
   m_Layer: 0
   m_Name: VSurface
   m_TagString: Untagged
@@ -57,7 +58,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 3.81, y: 3.86}
+    oldSize: {x: 4.2, y: 4.2}
     newSize: {x: 3.81, y: 3.86}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -66,6 +67,17 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3.81, y: 3.86}
   m_EdgeRadius: 0
+--- !u!114 &114916989743322642
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1783676969745272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dd55a13cf6c17346a5bce49312697fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212593841139222940
 SpriteRenderer:
   m_ObjectHideFlags: 1
