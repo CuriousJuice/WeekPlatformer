@@ -19,7 +19,7 @@ public class Character : MonoBehaviour {
         maxVelocity = new Vector2(500, 500);
         accelerationX = new Vector2(0, 0);
         accelerationY = new Vector2(0, 0);
-        gravity = new Vector2(0, 0);
+        gravity = new Vector2(0, -0.1F);
         movementThisFrame = new Vector2(0, 0);
 	}
 	
