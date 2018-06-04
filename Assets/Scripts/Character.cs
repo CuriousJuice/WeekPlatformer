@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Character : MonoBehaviour {
-    protected bool airborne;
-    protected Vector2 velocity;
+    public bool airborne;
+    public Vector2 velocity;
     protected Vector2 maxVelocity;
     protected Vector2 accelerationX;
     protected Vector2 accelerationY;
