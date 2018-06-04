@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ClimbableCollisions : MonoBehaviour {
+public class ClimbableCollisions : Collisions {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public override void Left(Collision2D col)
+    {
+        col.gameObject.GetComponent<Player>().climbing = true;
+    }
+
+    public override void Right(Collision2D col)
+    {
+        col.gameObject.GetComponent<Player>().climbing = true;
+    }
+
 }

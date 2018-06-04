@@ -22,12 +22,14 @@ public abstract class Collisions : MonoBehaviour {
                 Bottom(col);
             }
             //Left
-            if(col.gameObject.GetComponent<Player>().velocity.x > 0)
+            if(col.gameObject.GetComponent<Player>().velocity.x > 0 && (gameObject.transform.position.y < col.gameObject.transform.position.y + col.gameObject.GetComponent<SpriteRenderer>().bounds.size.y &&
+                gameObject.transform.position.y + gameObject.GetComponent<SpriteRenderer>().bounds.size.y > col.gameObject.transform.position.y))
             {
                 Left(col);
             }
             //Right
-            if(col.gameObject.GetComponent<Player>().velocity.x < 0)
+            if(col.gameObject.GetComponent<Player>().velocity.x < 0 && (gameObject.transform.position.y < col.gameObject.transform.position.y + col.gameObject.GetComponent<SpriteRenderer>().bounds.size.y &&
+                gameObject.transform.position.y + gameObject.GetComponent<SpriteRenderer>().bounds.size.y > col.gameObject.transform.position.y))
             {
                 Right(col);
             }
