@@ -4,18 +4,25 @@ using UnityEngine;
 using System;
 
 public class Bar : MonoBehaviour, IObservable {
-    List<IObserver> observers;
-    event EventHandler MainHandler;    
+    List<IObserver> observers = new List<IObserver>();
+    event EventHandler MainHandler;
+    GameObject target;
+    Vector2 targetDimensions;
+    Vector2 objectDimensions;
 
 
 	// Use this for initialization
-	void Start () {
-        observers = new List<IObserver>();
+	protected void Start () {
+        objectDimensions = GetComponent<SpriteRenderer>().bounds.size;
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		
+	protected void Update () {
+		if (target != null)
+        {
+            transform.position = new Vector2(target.transform.position.x,
+            target.transform.position.y + targetDimensions.y/2 + objectDimensions.y / 3);
+        }
 	}
 
     public void AddObserver(IObserver o)
@@ -42,5 +49,11 @@ public class Bar : MonoBehaviour, IObservable {
         {
             thisHandler(this, args);
         }
+    }
+
+    public void SetTarget(GameObject target)
+    {
+        this.target = target;
+        targetDimensions = target.GetComponent<SpriteRenderer>().bounds.size;
     }
 }
