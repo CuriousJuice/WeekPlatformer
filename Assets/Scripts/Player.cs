@@ -227,11 +227,6 @@ public class Player : Character {
             gameObject.transform.position = new Vector2(0, 0);
         }
 
-        
-
-        
-
-
 
         movementThisFrame += velocity;
         
@@ -246,5 +241,4 @@ public class Player : Character {
 
     }
 
-    public void SetAirborne(bool value) { airborne = value; }
 }

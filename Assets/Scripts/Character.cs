@@ -44,4 +44,6 @@ public class Character : MonoBehaviour {
         gameObject.transform.position = currentPosition + movementThisFrame;
         movementThisFrame = new Vector2(0, 0);
     }
+
+    public void SetAirborne(bool value) { airborne = value; }
 }
