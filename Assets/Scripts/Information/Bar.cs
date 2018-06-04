@@ -14,7 +14,7 @@ public class Bar : MonoBehaviour, IObservable {
 	// Use this for initialization
 	protected void Start () {
         objectDimensions = GetComponent<SpriteRenderer>().bounds.size;
-	}
+    }
 	
 	// Update is called once per frame
 	protected void Update () {

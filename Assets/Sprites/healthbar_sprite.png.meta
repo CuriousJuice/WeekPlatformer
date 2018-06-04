@@ -1,7 +1,10 @@
 fileFormatVersion: 2
-guid: 3d0bcfdaf228bb64a845c04728f50c47
+guid: 2918d3b8179d33c42808d965f3f63457
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: healthbar_sprite_0
+    21300002: healthbar_sprite_1
+    21300004: healthbar_sprite_2
   externalObjects: {}
   serializedVersion: 5
   mipmaps:
@@ -20,7 +23,7 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
-  isReadable: 1
+  isReadable: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -38,7 +41,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -80,11 +83,71 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: healthbar_sprite_0
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 95
+        width: 206
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe08e5a35ba246542b569a034cd591d8
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbar_sprite_1
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 59
+        width: 200
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 82dc7ce20fb971840bc642df30c1f137
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthbar_sprite_2
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 21
+        width: 200
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 558bc78ce40f5254f8d7a807cb990668
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 0ef1a50da05e2ee41bc65fe2e26a06bd
+    spriteID: 23494b5006b572346a1c61fe6df70d33
     vertices: []
     indices: 
     edges: []
