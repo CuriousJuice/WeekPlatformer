@@ -14,6 +14,7 @@ public class WallCollisions : Collisions{
     {
         col.gameObject.transform.position = new Vector2(gameObject.transform.position.x - 1, col.gameObject.transform.position.y);
         col.gameObject.GetComponent<Player>().velocity.x = 0;
+        col.gameObject.GetComponent<Player>().canMoveRight = false;
     }
 
     /// <summary>
@@ -24,6 +25,7 @@ public class WallCollisions : Collisions{
     {
         col.gameObject.transform.position = new Vector2(gameObject.transform.position.x + 1, col.gameObject.transform.position.y);
         col.gameObject.GetComponent<Player>().velocity.x = 0;
+        col.gameObject.GetComponent<Player>().canMoveLeft = false;
     }
 
 }

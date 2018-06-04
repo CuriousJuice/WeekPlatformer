@@ -12,6 +12,9 @@ public class Player : Character {
     public bool jumpReset; // tells if jump should be reset this frame
     public bool climbing;
 
+    public bool canMoveRight;
+    public bool canMoveLeft;
+
     public new void Start()
     {
         base.Start();
@@ -28,6 +31,8 @@ public class Player : Character {
         playerDimensions = new Vector2(GetComponent<SpriteRenderer>().bounds.size.x, GetComponent<SpriteRenderer>().bounds.size.x);
         jumpLock = false;
         jumpReset = false;
+        canMoveLeft = true;
+        canMoveRight = true;
     }
 
     public new void Update() {
@@ -172,21 +177,23 @@ public class Player : Character {
         // If only one of right / left pressed
         else
         {
-            if (Input.GetKey(KeyCode.RightArrow) && velocity.x < maxVelocity.x)
+            if (Input.GetKey(KeyCode.RightArrow) && velocity.x < maxVelocity.x && canMoveRight)
             {
                 if (velocity.x < 0)
                 {
                     velocity.x *= stopMultiplier;
                 }
                 velocity += accelerationX;
+                canMoveLeft = true;
             }
-            if (Input.GetKey(KeyCode.LeftArrow) && -velocity.x < maxVelocity.x)
+            if (Input.GetKey(KeyCode.LeftArrow) && -velocity.x < maxVelocity.x && canMoveLeft)
             {
                 if (velocity.x > 0)
                 {
                     velocity.x *= stopMultiplier;
                 }
                 velocity -= accelerationX;
+                canMoveRight = true;
             }
         }
 
