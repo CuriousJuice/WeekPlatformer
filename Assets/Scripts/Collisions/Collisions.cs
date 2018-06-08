@@ -6,6 +6,8 @@ using UnityEngine;
  * The abstract class that will be inherited by all collision type classes
  * */
 public abstract class Collisions : MonoBehaviour {
+    public bool platform;
+    public float platformWidth;
 
     // Update is called once per frame
     void OnCollisionEnter2D(Collision2D col)
@@ -48,6 +50,13 @@ public abstract class Collisions : MonoBehaviour {
         col.gameObject.GetComponent<Player>().jumpReset = true;
         col.gameObject.GetComponent<Player>().airborne = false;
         col.gameObject.GetComponent<Player>().velocity.y = 0;
+
+        if (platform)
+        {
+            col.gameObject.GetComponent<Player>().platformStart = gameObject.transform.position.x;
+            col.gameObject.GetComponent<Player>().onPlatform = true;
+            col.gameObject.GetComponent<Player>().platformWidth = platformWidth;
+        }
     }
 
     /// <summary>

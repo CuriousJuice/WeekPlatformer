@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4956885924536428}
   - component: {fileID: 212405318048651326}
   - component: {fileID: 61335592898794976}
+  - component: {fileID: 114921405089943372}
   m_Layer: 0
   m_Name: Climb
   m_TagString: Untagged
@@ -66,6 +67,17 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4.2, y: 4.2}
   m_EdgeRadius: 0
+--- !u!114 &114921405089943372
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1211708301025892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8c535ebc575b5e4691563873445217f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212405318048651326
 SpriteRenderer:
   m_ObjectHideFlags: 1

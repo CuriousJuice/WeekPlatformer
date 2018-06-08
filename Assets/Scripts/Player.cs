@@ -12,8 +12,14 @@ public class Player : Character {
     public bool jumpReset; // tells if jump should be reset this frame
     public bool climbing;
 
-    public bool canMoveRight;
-    public bool canMoveLeft;
+    public bool onPlatform; //determines whether the player is on the platform or not.
+    public float platformStart; //the x-coordinate of the start of the platform
+    public float platformWidth; //the width of the platform
+    public bool reEnableMovement; //Used to determine if the player has made a wall collision and has surpassed the appropriate height
+    public bool canMoveRight; //Used to reenable right movement
+    public bool canMoveLeft; //Used to reenable left movement
+
+    public float clearHeight;
 
     public new void Start()
     {
@@ -43,105 +49,7 @@ public class Player : Character {
     private new void FixedUpdate()
     {
         base.FixedUpdate();
-        //Debug.Log(GetComponent<SpriteRenderer>().bounds.size.y);
-        //Debug.Log(movementThisFrame.y);
     }
-
-    /**
-     * Responsble for handling collisions for the following objects:
-     * Walls
-     * Spikes
-     * Surface
-     **/
-    //void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    //Debug.Log(collision.gameObject.name);
-    //    //Ground
-    //    if(collision.gameObject.name == "Surface(Clone)")
-    //    {
-         
-
-    //        Debug.Log(transform.position.y + "-" + collision.gameObject.transform.position.y);
-    //        //Gets rectangle of floor
-    //        GameObject floor = collision.gameObject;
-    //        Debug.Log("COLLIDED");
-    //        if (velocity.y < 0)
-    //        {
-    //            //Debug.Log("Collided with surface up");
-    //            float floorHeight = floor.GetComponent<SpriteRenderer>().bounds.size.y;
-    //            gameObject.transform.position = new Vector2(gameObject.transform.position.x,
-    //                collision.gameObject.transform.position.y + floorHeight);
-    //            //print(gameObject.transform.position.y - floorHeight);
-    //            //print(collision.gameObject.transform.position.y);
-    //            jumpReset = true;
-    //            airborne = false;
-    //        }
-    //        else if (velocity.y > 0)
-    //        {
-    //            //Debug.Log("Collided with surface down");
-    //            float floorHeight = floor.GetComponent<SpriteRenderer>().bounds.size.y;
-    //            gameObject.transform.position = new Vector2(gameObject.transform.position.x,
-    //                collision.gameObject.transform.position.y - playerDimensions.y);
-    //            jumpLock = true;
-    //        }
-    //        if(velocity.y == 0 && transform.position.y > collision.gameObject.transform.position.y)
-    //        {
-    //            jumpReset = true;
-    //        }
-
-    //        movementThisFrame = new Vector2(movementThisFrame.x, 0);
-    //        velocity.y = 0;
-    //    }
-        
-    //    //Spikes
-    //    if(collision.gameObject.name == "Triangle(Clone)")
-    //    {
-    //        //Debug.Log("Die");
-    //        Destroy(gameObject);
-    //    }
-
-    //    //Wall
-    //    if (collision.gameObject.name == "VSurface(Clone)")
-    //    {
-    //        //Debug.Log("WALL");
-    //        //Left
-    //        if (velocity.x > 0) {
-    //            gameObject.transform.position = new Vector2(collision.gameObject.transform.position.x - 1, gameObject.transform.position.y);
-    //        }
-    //        //Right
-    //        if (velocity.x < 0)
-    //        {
-    //            gameObject.transform.position = new Vector2(collision.gameObject.transform.position.x + 1, gameObject.transform.position.y);
-    //        }
-    //        velocity.x = 0;
-
-    //        if(velocity.y < 0 && gameObject.transform.position.x > collision.gameObject.transform.position.x &&
-    //            gameObject.transform.position.x < collision.gameObject.transform.position.x + 1)
-    //        {
-    //            velocity.y = 0;
-    //            gameObject.transform.position = new Vector2(gameObject.transform.position.x,
-    //                collision.gameObject.transform.position.y + collision.gameObject.GetComponent<SpriteRenderer>().bounds.size.y);
-    //            jumpReset = true;
-    //            airborne = false;
-    //        }
-    //    }
-
-    //    //Climbables
-    //    if(collision.gameObject.name == "Climb(Clone)")
-    //    {
-    //        climbing = true;
-    //        Debug.Log(climbing);
-    //    }
-        
-    //}
-
-    //void OnCollisionExit2D(Collision2D collision)
-    //{
-    //    if(collision.gameObject.name == "Surface(Clone)")
-    //    {
-    //        airborne = true;
-    //    }
-    //}
 
     // Helper method to check user key presses related to movement
     private void CheckUserMovement()
@@ -223,10 +131,6 @@ public class Player : Character {
         {
             jumpLock = true;
         }
-        //if (currentPosition.y > -3)
-        //{
-        //    airborne = true;
-        //}
 
         //Reset remove after development
         if (Input.GetKeyDown(KeyCode.R))
@@ -234,7 +138,21 @@ public class Player : Character {
             gameObject.transform.position = new Vector2(0, 0);
         }
 
-        
+        //For reenabling left and right movement for when a wall collisions occurs.
+        if (reEnableMovement && gameObject.transform.position.y >= clearHeight)
+        {
+            canMoveLeft = true;
+            canMoveRight = true;
+            reEnableMovement = false;
+        }
+
+        //To reenable gravity for when a player walks off a platform.
+        if(onPlatform && (gameObject.transform.position.x > platformStart + platformWidth || 
+            gameObject.transform.position.x + gameObject.GetComponent<SpriteRenderer>().bounds.size.x < platformStart))
+        {
+            airborne = true;
+            onPlatform = false;
+        }
 
         //For testing
         if (gameObject.transform.position.y < -6)
