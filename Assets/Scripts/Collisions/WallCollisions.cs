@@ -18,7 +18,7 @@ public class WallCollisions : Collisions{
         col.gameObject.GetComponent<Player>().velocity.x = 0;
         col.gameObject.GetComponent<Player>().canMoveRight = false;
         col.gameObject.GetComponent<Player>().reEnableMovement = true;
-        col.gameObject.GetComponent<Player>().clearHeight = height;
+        col.gameObject.GetComponent<Player>().clearHeight = gameObject.transform.position.y + height;
         col.gameObject.GetComponent<Player>().airborne = true;
     }
 
@@ -32,7 +32,7 @@ public class WallCollisions : Collisions{
         col.gameObject.GetComponent<Player>().velocity.x = 0;
         col.gameObject.GetComponent<Player>().canMoveLeft = false;
         col.gameObject.GetComponent<Player>().reEnableMovement = true;
-        col.gameObject.GetComponent<Player>().clearHeight = height;
+        col.gameObject.GetComponent<Player>().clearHeight = height + gameObject.transform.position.y;
         col.gameObject.GetComponent<Player>().airborne = true;
     }
 
