@@ -155,11 +155,21 @@ Prefab:
     - target: {fileID: 114916989743322642, guid: 06f8a87f951f2ac4fb71595e6c9636ff,
         type: 2}
       propertyPath: height
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1783676969745272, guid: 06f8a87f951f2ac4fb71595e6c9636ff, type: 2}
       propertyPath: m_Name
       value: VSurface (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 114916989743322642, guid: 06f8a87f951f2ac4fb71595e6c9636ff,
+        type: 2}
+      propertyPath: platform
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114916989743322642, guid: 06f8a87f951f2ac4fb71595e6c9636ff,
+        type: 2}
+      propertyPath: platformWidth
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 06f8a87f951f2ac4fb71595e6c9636ff, type: 2}
@@ -299,6 +309,16 @@ Prefab:
         type: 2}
       propertyPath: height
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114916989743322642, guid: 06f8a87f951f2ac4fb71595e6c9636ff,
+        type: 2}
+      propertyPath: platform
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114916989743322642, guid: 06f8a87f951f2ac4fb71595e6c9636ff,
+        type: 2}
+      propertyPath: platformWidth
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 06f8a87f951f2ac4fb71595e6c9636ff, type: 2}
@@ -617,11 +637,21 @@ Prefab:
     - target: {fileID: 114916989743322642, guid: 06f8a87f951f2ac4fb71595e6c9636ff,
         type: 2}
       propertyPath: height
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1783676969745272, guid: 06f8a87f951f2ac4fb71595e6c9636ff, type: 2}
       propertyPath: m_Name
       value: VSurface (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 114916989743322642, guid: 06f8a87f951f2ac4fb71595e6c9636ff,
+        type: 2}
+      propertyPath: platform
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114916989743322642, guid: 06f8a87f951f2ac4fb71595e6c9636ff,
+        type: 2}
+      propertyPath: platformWidth
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 06f8a87f951f2ac4fb71595e6c9636ff, type: 2}
@@ -1045,11 +1075,21 @@ Prefab:
     - target: {fileID: 114916989743322642, guid: 06f8a87f951f2ac4fb71595e6c9636ff,
         type: 2}
       propertyPath: height
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1783676969745272, guid: 06f8a87f951f2ac4fb71595e6c9636ff, type: 2}
       propertyPath: m_Name
       value: VSurface (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 114916989743322642, guid: 06f8a87f951f2ac4fb71595e6c9636ff,
+        type: 2}
+      propertyPath: platform
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114916989743322642, guid: 06f8a87f951f2ac4fb71595e6c9636ff,
+        type: 2}
+      propertyPath: platformWidth
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 06f8a87f951f2ac4fb71595e6c9636ff, type: 2}
