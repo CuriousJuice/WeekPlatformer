@@ -8,7 +8,7 @@ public class Player : Character {
     int jumpTimer;
     int maxJump;
     Vector2 playerDimensions;
-    Vector2 climbingSpeed;
+    float climbingSpeed;
     Vector2 descendingSpeed;
     public bool jumpLock; // tells if jump should be locked starting from this frame
     public bool jumpReset; // tells if jump should be reset this frame
@@ -21,7 +21,7 @@ public class Player : Character {
     public bool canMoveRight; //Used to reenable right movement
     public bool canMoveLeft; //Used to reenable left movement
 
-    public float clearHeight;
+    public float clearHeight; //used to determine how far the player can climb
 
     public new void Start()
     {
@@ -31,7 +31,7 @@ public class Player : Character {
         accelerationX = new Vector2(0.05F, 0);
         accelerationY = new Vector2(0, 0.15F);
         gravity = new Vector2(0, -0.1F);
-        climbingSpeed = new Vector2(0, 0.003F);
+        climbingSpeed = 0.012F; //new Vector2(0, 0.003F);
         descendingSpeed = new Vector2(0, 0.08F);
         movementThisFrame = new Vector2(0, 0);
         stopMultiplier = 0.6F;
@@ -132,9 +132,10 @@ public class Player : Character {
                 }
             }
             // The player is in contact with a climbable surface
-            else
+            else if(climbing == true)
             {
-                velocity += climbingSpeed;
+                gameObject.transform.position = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y + climbingSpeed);
+                //velocity = climbingSpeed;
             }
         }
         
@@ -174,6 +175,12 @@ public class Player : Character {
             jumpReset = true;
         }
 
+        //Reenable right and left movement when the player passes the climbable height
+        if(gameObject.transform.position.y >= clearHeight)
+        {
+            canMoveRight = true;
+            canMoveLeft = true;
+        }
     }
 
 }
