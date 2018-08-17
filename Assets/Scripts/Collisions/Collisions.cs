@@ -50,6 +50,7 @@ public abstract class Collisions : MonoBehaviour {
         col.gameObject.GetComponent<Player>().jumpReset = true;
         col.gameObject.GetComponent<Player>().airborne = false;
         col.gameObject.GetComponent<Player>().velocity.y = 0;
+        col.gameObject.GetComponent<Player>().canDescend = false;
 
         if (platform)
         {
@@ -69,6 +70,7 @@ public abstract class Collisions : MonoBehaviour {
             col.gameObject.GetComponent<SpriteRenderer>().bounds.size.y);
         col.gameObject.GetComponent<Player>().jumpLock = true;
         col.gameObject.GetComponent<Player>().velocity.y = 0;
+        col.gameObject.GetComponent<Player>().canClimb = false;
 
         if (col.gameObject.GetComponent<Player>().velocity.y == 0 && col.gameObject.transform.position.y > gameObject.transform.position.y)
         {

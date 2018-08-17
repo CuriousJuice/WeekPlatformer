@@ -9,7 +9,7 @@ public class Player : Character {
     int maxJump;
     Vector2 playerDimensions;
     float climbingSpeed;
-    Vector2 descendingSpeed;
+    float descendingSpeed;
     public bool jumpLock; // tells if jump should be locked starting from this frame
     public bool jumpReset; // tells if jump should be reset this frame
     public bool climbing;
@@ -20,6 +20,8 @@ public class Player : Character {
     public bool reEnableMovement; //Used to determine if the player has made a wall collision and has surpassed the appropriate height
     public bool canMoveRight; //Used to reenable right movement
     public bool canMoveLeft; //Used to reenable left movement
+    public bool canClimb; //used to reenable climbing up
+    public bool canDescend; //used to reenable climbing down
 
     public float clearHeight; //used to determine how far the player can climb
 
@@ -32,7 +34,7 @@ public class Player : Character {
         accelerationY = new Vector2(0, 0.15F);
         gravity = new Vector2(0, -0.1F);
         climbingSpeed = 0.012F; //new Vector2(0, 0.003F);
-        descendingSpeed = new Vector2(0, 0.08F);
+        descendingSpeed = 0.08F; //new Vector2(0, 0.08F);
         movementThisFrame = new Vector2(0, 0);
         stopMultiplier = 0.6F;
         airborne = true;
@@ -43,6 +45,8 @@ public class Player : Character {
         jumpReset = false;
         canMoveLeft = true;
         canMoveRight = true;
+        canClimb = true;
+        canDescend = true;
     }
 
     public new void Update() {
@@ -60,18 +64,7 @@ public class Player : Character {
     {
         //Debug.Log(velocity.x);
 
-        // Deals with jump resetting
-        if (jumpLock)
-        {
-            jumpTimer = maxJump;
-            jumpLock = false;
-        }
-
-        if (jumpReset)
-        {
-            jumpTimer = 0;
-            jumpReset = false;
-        }
+        ///////////////////////////HORIZONTAL MOVEMENT////////////////////////////////
 
         //If neither right/left pressed or both
         if (!(Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow))
@@ -109,7 +102,22 @@ public class Player : Character {
             }
         }
 
-        //Jump if the up key is held, and the jump wasn't too long
+        ///////////////////////////VERTICLE MOVEMENT////////////////////////////////
+
+        // Deals with jump resetting
+        if (jumpLock)
+        {
+            jumpTimer = maxJump;
+            jumpLock = false;
+        }
+
+        if (jumpReset)
+        {
+            jumpTimer = 0;
+            jumpReset = false;
+        }
+
+        //Jump if the up key is held, and the jump wasn't too long, also will make the player move up if they're climbing
         if (Input.GetKey(KeyCode.UpArrow))
         {
             if (jumpTimer < maxJump && climbing == false)
@@ -132,17 +140,31 @@ public class Player : Character {
                 }
             }
             // The player is in contact with a climbable surface
-            else if(climbing == true)
+            else if(climbing == true && canClimb)
             {
-                gameObject.transform.position = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y + climbingSpeed);
-                //velocity = climbingSpeed;
+                //gameObject.transform.position = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y + climbingSpeed);
+                velocity = new Vector2(velocity.x, climbingSpeed);
+                canDescend = true;
             }
         }
+
+        //Descends if the player is climbing.
+        if(Input.GetKey(KeyCode.DownArrow) && climbing && canDescend)
+        {
+            velocity = new Vector2(velocity.x, -descendingSpeed);
+            canClimb = true;
+        }
+        //Stops moving down upon key release
+        if(Input.GetKeyUp(KeyCode.DownArrow) && climbing)
+        {
+            if (climbing) { velocity = new Vector2(velocity.x, 0); }
+        }
         
-        //If jump key released, then can't jump again
+        //If jump key released, then can't jump again also stops climbing up when key is released
         if (Input.GetKeyUp(KeyCode.UpArrow))
         {
             jumpLock = true;
+            if (climbing) { velocity = new Vector2(velocity.x, 0); }
         }
 
         //Reset remove after development
@@ -150,6 +172,8 @@ public class Player : Character {
         {
             gameObject.transform.position = new Vector2(0, 0);
         }
+
+        /////////////REENABLING MOVEMENT AND MISCELLNANIOUS////////////////////////////
 
         //For reenabling left and right movement for when a wall collisions occurs.
         if (reEnableMovement && gameObject.transform.position.y >= clearHeight)
