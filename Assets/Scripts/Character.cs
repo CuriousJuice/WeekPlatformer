@@ -30,10 +30,7 @@ public class Character : MonoBehaviour {
         {
             velocity += gravity;
         }
-        else
-        {
-            velocity.y = 0;
-        }
+       
         movementThisFrame += velocity;
     }
 

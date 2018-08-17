@@ -8,6 +8,8 @@ public class Player : Character {
     int jumpTimer;
     int maxJump;
     Vector2 playerDimensions;
+    Vector2 climbingSpeed;
+    Vector2 descendingSpeed;
     public bool jumpLock; // tells if jump should be locked starting from this frame
     public bool jumpReset; // tells if jump should be reset this frame
     public bool climbing;
@@ -29,6 +31,8 @@ public class Player : Character {
         accelerationX = new Vector2(0.05F, 0);
         accelerationY = new Vector2(0, 0.15F);
         gravity = new Vector2(0, -0.1F);
+        climbingSpeed = new Vector2(0, 0.003F);
+        descendingSpeed = new Vector2(0, 0.08F);
         movementThisFrame = new Vector2(0, 0);
         stopMultiplier = 0.6F;
         airborne = true;
@@ -106,26 +110,34 @@ public class Player : Character {
         }
 
         //Jump if the up key is held, and the jump wasn't too long
-        if (Input.GetKey(KeyCode.UpArrow) && jumpTimer < maxJump)
+        if (Input.GetKey(KeyCode.UpArrow))
         {
-            // Makes jump explosive at the beginning
-            if (jumpTimer < 2)
+            if (jumpTimer < maxJump && climbing == false)
             {
-                velocity += 1.5F * accelerationY;
-                airborne = true;
+                // Makes jump explosive at the beginning
+                if (jumpTimer < 2)
+                {
+                    velocity += 1.5F * accelerationY;
+                    airborne = true;
+                }
+                //Resets jump after initial burst
+                if (jumpTimer == 3)
+                {
+                    velocity -= 1.5F * accelerationY;
+                }
+                if (airborne)
+                {
+                    velocity += accelerationY;
+                    jumpTimer += 1;
+                }
             }
-            //Resets jump after initial burst
-            if (jumpTimer == 3)
+            // The player is in contact with a climbable surface
+            else
             {
-                velocity -= 1.5F * accelerationY;
+                velocity += climbingSpeed;
             }
-            if (airborne)
-            {
-                velocity += accelerationY;
-                jumpTimer += 1;
-            }
-            
         }
+        
         //If jump key released, then can't jump again
         if (Input.GetKeyUp(KeyCode.UpArrow))
         {
