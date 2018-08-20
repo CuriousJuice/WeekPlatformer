@@ -90,6 +90,11 @@ public class Player : Character {
                 }
                 velocity += accelerationX;
                 canMoveLeft = true;
+                if (climbing)
+                {
+                    climbing = false;
+                    airborne = true;
+                }
             }
             if (Input.GetKey(KeyCode.LeftArrow) && -velocity.x < maxVelocity.x && canMoveLeft)
             {
@@ -99,6 +104,12 @@ public class Player : Character {
                 }
                 velocity -= accelerationX;
                 canMoveRight = true;
+                if (climbing)
+                {
+                    climbing = false;
+                    airborne = true;
+                }
+                
             }
         }
 
@@ -145,6 +156,17 @@ public class Player : Character {
                 //gameObject.transform.position = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y + climbingSpeed);
                 velocity = new Vector2(velocity.x, climbingSpeed);
                 canDescend = true;
+
+                //Reenable right and left movement when the player passes the climbable height
+                if (gameObject.transform.position.y >= clearHeight)
+                {
+                    velocity = new Vector2(velocity.x, 0);
+                    onPlatform = true;
+                    if (!canMoveRight) { gameObject.transform.position = new Vector2(gameObject.transform.position.x + 0.05F, gameObject.transform.position.y); }
+                    else { gameObject.transform.position = new Vector2(gameObject.transform.position.x - 0.05F, gameObject.transform.position.y);}
+                    climbing = false;
+                }
+
             }
         }
 
@@ -171,6 +193,18 @@ public class Player : Character {
         if (Input.GetKeyDown(KeyCode.R))
         {
             gameObject.transform.position = new Vector2(0, 0);
+            canClimb = true;
+            canMoveRight = true;
+            canMoveLeft = true;
+            canDescend = true;
+            climbing = false;
+            airborne = true;
+            onPlatform = false;
+        }
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            Debug.Log("Status:\tcanClimb: " + canClimb + "\tcanMoveRight: " + canMoveRight + "\tcanMoveLeft: " + canMoveLeft + "\tcanDescend: " + canDescend + "\tclimbing: " + climbing + "\tairborne: " + airborne +
+                "\tonPlatform: " + onPlatform);
         }
 
         /////////////REENABLING MOVEMENT AND MISCELLNANIOUS////////////////////////////
@@ -199,12 +233,6 @@ public class Player : Character {
             jumpReset = true;
         }
 
-        //Reenable right and left movement when the player passes the climbable height
-        if(gameObject.transform.position.y >= clearHeight)
-        {
-            canMoveRight = true;
-            canMoveLeft = true;
-        }
     }
 
 }
