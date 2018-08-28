@@ -7,6 +7,7 @@ using UnityEngine;
 /// </summary>
 public class WallCollisions : Collisions{
 
+    public bool wall;
     public float height;
     /// <summary>
     /// Prevents the player from going through from the left on the collided surface.
@@ -14,12 +15,15 @@ public class WallCollisions : Collisions{
     /// <param name="col"></param>
     public override void Left(Collision2D col)
     {
-        col.gameObject.transform.position = new Vector2(gameObject.transform.position.x - 1, col.gameObject.transform.position.y);
-        col.gameObject.GetComponent<Player>().velocity.x = 0;
-        col.gameObject.GetComponent<Player>().canMoveRight = false;
-        col.gameObject.GetComponent<Player>().reEnableMovement = true;
-        col.gameObject.GetComponent<Player>().clearHeight = gameObject.transform.position.y + height;
-        col.gameObject.GetComponent<Player>().airborne = true;
+        if (wall)
+        {
+            col.gameObject.transform.position = new Vector2(gameObject.transform.position.x - 1, col.gameObject.transform.position.y);
+            col.gameObject.GetComponent<Player>().velocity.x = 0;
+            col.gameObject.GetComponent<Player>().canMoveRight = false;
+            col.gameObject.GetComponent<Player>().reEnableMovement = true;
+            col.gameObject.GetComponent<Player>().clearHeight = gameObject.transform.position.y + height;
+            col.gameObject.GetComponent<Player>().airborne = true;
+        }
     }
 
     /// <summary>
@@ -28,11 +32,14 @@ public class WallCollisions : Collisions{
     /// <param name="col"></param>
     public override void Right(Collision2D col)
     {
-        col.gameObject.transform.position = new Vector2(gameObject.transform.position.x + 1, col.gameObject.transform.position.y);
-        col.gameObject.GetComponent<Player>().velocity.x = 0;
-        col.gameObject.GetComponent<Player>().canMoveLeft = false;
-        col.gameObject.GetComponent<Player>().reEnableMovement = true;
-        col.gameObject.GetComponent<Player>().clearHeight = height + gameObject.transform.position.y;
-        col.gameObject.GetComponent<Player>().airborne = true;
+        if (wall)
+        {
+            col.gameObject.transform.position = new Vector2(gameObject.transform.position.x + 1, col.gameObject.transform.position.y);
+            col.gameObject.GetComponent<Player>().velocity.x = 0;
+            col.gameObject.GetComponent<Player>().canMoveLeft = false;
+            col.gameObject.GetComponent<Player>().reEnableMovement = true;
+            col.gameObject.GetComponent<Player>().clearHeight = height + gameObject.transform.position.y;
+            col.gameObject.GetComponent<Player>().airborne = true;
+        }
     }
 }

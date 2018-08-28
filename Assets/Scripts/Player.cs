@@ -189,23 +189,23 @@ public class Player : Character {
             if (climbing) { velocity = new Vector2(velocity.x, 0); }
         }
 
-        //Reset remove after development
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            gameObject.transform.position = new Vector2(0, 0);
-            canClimb = true;
-            canMoveRight = true;
-            canMoveLeft = true;
-            canDescend = true;
-            climbing = false;
-            airborne = true;
-            onPlatform = false;
-        }
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            Debug.Log("Status:\tcanClimb: " + canClimb + "\tcanMoveRight: " + canMoveRight + "\tcanMoveLeft: " + canMoveLeft + "\tcanDescend: " + canDescend + "\tclimbing: " + climbing + "\tairborne: " + airborne +
-                "\tonPlatform: " + onPlatform);
-        }
+                //Reset remove after development
+                if (Input.GetKeyDown(KeyCode.R))
+                {
+                    gameObject.transform.position = new Vector2(0, 0);
+                    canClimb = true;
+                    canMoveRight = true;
+                    canMoveLeft = true;
+                    canDescend = true;
+                    climbing = false;
+                    airborne = true;
+                    onPlatform = false;
+                }
+                if (Input.GetKeyDown(KeyCode.I))
+                {
+                    Debug.Log("Status:\tcanClimb: " + canClimb + "\tcanMoveRight: " + canMoveRight + "\tcanMoveLeft: " + canMoveLeft + "\tcanDescend: " + canDescend + "\tclimbing: " + climbing + "\tairborne: " + airborne +
+                        "\tonPlatform: " + onPlatform);
+                }
 
         /////////////REENABLING MOVEMENT AND MISCELLNANIOUS////////////////////////////
 
