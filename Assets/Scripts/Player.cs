@@ -8,6 +8,8 @@ public class Player : Character {
     int jumpTimer;
     int maxJump;
     Vector2 playerDimensions;
+    float climbingSpeed;
+    float descendingSpeed;
     public bool jumpLock; // tells if jump should be locked starting from this frame
     public bool jumpReset; // tells if jump should be reset this frame
     public bool climbing;
@@ -18,8 +20,11 @@ public class Player : Character {
     public bool reEnableMovement; //Used to determine if the player has made a wall collision and has surpassed the appropriate height
     public bool canMoveRight; //Used to reenable right movement
     public bool canMoveLeft; //Used to reenable left movement
+    public bool canClimb; //used to reenable climbing up
+    public bool canDescend; //used to reenable climbing down
+    public bool fromLeft; //used to determine whether a collision was made from the left or right side.
 
-    public float clearHeight;
+    public float clearHeight; //used to determine how far the player can climb
 
     public new void Start()
     {
@@ -29,6 +34,8 @@ public class Player : Character {
         accelerationX = new Vector2(0.05F, 0);
         accelerationY = new Vector2(0, 0.15F);
         gravity = new Vector2(0, -0.1F);
+        climbingSpeed = 0.025F; //new Vector2(0, 0.003F);
+        descendingSpeed = 0.08F; //new Vector2(0, 0.08F);
         movementThisFrame = new Vector2(0, 0);
         stopMultiplier = 0.6F;
         airborne = true;
@@ -39,6 +46,8 @@ public class Player : Character {
         jumpReset = false;
         canMoveLeft = true;
         canMoveRight = true;
+        canClimb = true;
+        canDescend = true;
     }
 
     public new void Update() {
@@ -56,18 +65,7 @@ public class Player : Character {
     {
         //Debug.Log(velocity.x);
 
-        // Deals with jump resetting
-        if (jumpLock)
-        {
-            jumpTimer = maxJump;
-            jumpLock = false;
-        }
-
-        if (jumpReset)
-        {
-            jumpTimer = 0;
-            jumpReset = false;
-        }
+        ///////////////////////////HORIZONTAL MOVEMENT////////////////////////////////
 
         //If neither right/left pressed or both
         if (!(Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow))
@@ -93,50 +91,131 @@ public class Player : Character {
                 }
                 velocity += accelerationX;
                 canMoveLeft = true;
+                if (climbing)
+                {
+                    Debug.Log("Wyvern");
+                    climbing = false;
+                    //airborne = true;
+                }
             }
             if (Input.GetKey(KeyCode.LeftArrow) && -velocity.x < maxVelocity.x && canMoveLeft)
             {
+                Debug.Log("worms");
                 if (velocity.x > 0)
                 {
                     velocity.x *= stopMultiplier;
                 }
                 velocity -= accelerationX;
                 canMoveRight = true;
+                if (climbing)
+                {
+                    Debug.Log("nevermore");
+                    climbing = false;
+                    //airborne = true;
+                }
+                
             }
         }
 
-        //Jump if the up key is held, and the jump wasn't too long
-        if (Input.GetKey(KeyCode.UpArrow) && jumpTimer < maxJump)
+        ///////////////////////////VERTICLE MOVEMENT////////////////////////////////
+
+        // Deals with jump resetting
+        if (jumpLock)
         {
-            // Makes jump explosive at the beginning
-            if (jumpTimer < 2)
-            {
-                velocity += 1.5F * accelerationY;
-                airborne = true;
-            }
-            //Resets jump after initial burst
-            if (jumpTimer == 3)
-            {
-                velocity -= 1.5F * accelerationY;
-            }
-            if (airborne)
-            {
-                velocity += accelerationY;
-                jumpTimer += 1;
-            }
-            
+            jumpTimer = maxJump;
+            jumpLock = false;
         }
-        //If jump key released, then can't jump again
+
+        if (jumpReset)
+        {
+            jumpTimer = 0;
+            jumpReset = false;
+        }
+
+        //Jump if the up key is held, and the jump wasn't too long, also will make the player move up if they're climbing
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
+            if (jumpTimer < maxJump && climbing == false)
+            {
+                Debug.Log("what");
+                // Makes jump explosive at the beginning
+                if (jumpTimer < 2)
+                {
+                    velocity += 1.5F * accelerationY;
+                    airborne = true;
+                }
+                //Resets jump after initial burst
+                if (jumpTimer == 3)
+                {
+                    velocity -= 1.5F * accelerationY;
+                }
+                if (airborne)
+                {
+                    velocity += accelerationY;
+                    jumpTimer += 1;
+                }
+            }
+            // The player is in contact with a climbable surface
+            else if(climbing == true && canClimb)
+            {
+                Debug.Log("fuck");
+                //gameObject.transform.position = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y + climbingSpeed);
+                velocity = new Vector2(velocity.x, climbingSpeed);
+                canDescend = true;
+                canMoveLeft = false;
+                canMoveRight = false;
+
+                //Reenable right and left movement when the player passes the climbable height
+                if (gameObject.transform.position.y >= clearHeight)
+                {
+                    velocity = new Vector2(velocity.x, 0);
+                    onPlatform = true;
+                    if (!canMoveRight) { gameObject.transform.position = new Vector2(gameObject.transform.position.x + 0.05F, gameObject.transform.position.y); }
+                    else { gameObject.transform.position = new Vector2(gameObject.transform.position.x - 0.05F, gameObject.transform.position.y);}
+                    climbing = false;
+                }
+
+            }
+        }
+
+        //Descends if the player is climbing.
+        if(Input.GetKey(KeyCode.DownArrow) && climbing && canDescend)
+        {
+            velocity = new Vector2(velocity.x, -descendingSpeed);
+            canClimb = true;
+        }
+        //Stops moving down upon key release
+        if(Input.GetKeyUp(KeyCode.DownArrow) && climbing)
+        {
+            if (climbing) { velocity = new Vector2(velocity.x, 0); }
+        }
+        
+        //If jump key released, then can't jump again also stops climbing up when key is released
         if (Input.GetKeyUp(KeyCode.UpArrow))
         {
             jumpLock = true;
+            if (climbing) { velocity = new Vector2(velocity.x, 0); }
         }
 
-        //Reset remove after development
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            gameObject.transform.position = new Vector2(0, 0);
-        }
+                //Reset remove after development
+                if (Input.GetKeyDown(KeyCode.R))
+                {
+                    gameObject.transform.position = new Vector2(0, 0);
+                    canClimb = true;
+                    canMoveRight = true;
+                    canMoveLeft = true;
+                    canDescend = true;
+                    climbing = false;
+                    airborne = true;
+                    onPlatform = false;
+                }
+                if (Input.GetKeyDown(KeyCode.I))
+                {
+                    Debug.Log("Status:\tcanClimb: " + canClimb + "\tcanMoveRight: " + canMoveRight + "\tcanMoveLeft: " + canMoveLeft + "\tcanDescend: " + canDescend + "\tclimbing: " + climbing + "\tairborne: " + airborne +
+                        "\tonPlatform: " + onPlatform);
+                }
+
+        /////////////REENABLING MOVEMENT AND MISCELLNANIOUS////////////////////////////
 
         //For reenabling left and right movement for when a wall collisions occurs.
         if (reEnableMovement && gameObject.transform.position.y >= clearHeight)

@@ -15,12 +15,18 @@ public abstract class Collisions : MonoBehaviour {
         if(col.gameObject.name == "PlayerPref(Clone)")
         {
             //Top
-            if (col.gameObject.GetComponent<Player>().velocity.y < 0)
+            if (col.gameObject.GetComponent<Player>().velocity.y < 0 &&
+                col.gameObject.GetComponent<Player>().transform.position.y > gameObject.transform.position.y && 
+                col.gameObject.GetComponent<Player>().transform.position.y + col.gameObject.GetComponent<SpriteRenderer>().bounds.size.y >
+                gameObject.transform.position.y + gameObject.GetComponent<SpriteRenderer>().bounds.size.y)
             {
                 Top(col);
             }
             //Bottom
-            if(col.gameObject.GetComponent<Player>().velocity.y > 0) {
+            if(col.gameObject.GetComponent<Player>().velocity.y > 0 && 
+                col.gameObject.GetComponent<Player>().transform.position.y + col.gameObject.GetComponent<SpriteRenderer>().bounds.size.y <
+                gameObject.transform.position.y + gameObject.GetComponent<SpriteRenderer>().bounds.size.y && 
+                col.gameObject.GetComponent<Player>().transform.position.y < gameObject.transform.position.y) {
                 Bottom(col);
             }
             //Left
@@ -49,8 +55,12 @@ public abstract class Collisions : MonoBehaviour {
 
         col.gameObject.GetComponent<Player>().jumpReset = true;
         col.gameObject.GetComponent<Player>().airborne = false;
+        col.gameObject.GetComponent<Player>().canClimb = true;
         col.gameObject.GetComponent<Player>().velocity.y = 0;
-
+        col.gameObject.GetComponent<Player>().canDescend = false;
+        if (col.gameObject.GetComponent<Player>().fromLeft) { col.gameObject.GetComponent<Player>().canMoveLeft = true; }
+        else { col.gameObject.GetComponent<Player>().canMoveRight = true; }
+        
         if (platform)
         {
             col.gameObject.GetComponent<Player>().platformStart = gameObject.transform.position.x;
@@ -63,12 +73,14 @@ public abstract class Collisions : MonoBehaviour {
     /// Prevents the player from going up through the collided surface
     /// </summary>
     /// <param name="col"></param>
-    void Bottom(Collision2D col)
+    public virtual void Bottom(Collision2D col)
     {
         col.gameObject.transform.position = new Vector2(col.gameObject.transform.position.x, gameObject.transform.position.y -
             col.gameObject.GetComponent<SpriteRenderer>().bounds.size.y);
         col.gameObject.GetComponent<Player>().jumpLock = true;
         col.gameObject.GetComponent<Player>().velocity.y = 0;
+        col.gameObject.GetComponent<Player>().canClimb = false;
+        Debug.Log("ran");
 
         if (col.gameObject.GetComponent<Player>().velocity.y == 0 && col.gameObject.transform.position.y > gameObject.transform.position.y)
         {
