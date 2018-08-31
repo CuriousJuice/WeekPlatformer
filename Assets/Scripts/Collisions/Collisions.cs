@@ -58,7 +58,9 @@ public abstract class Collisions : MonoBehaviour {
         col.gameObject.GetComponent<Player>().canClimb = true;
         col.gameObject.GetComponent<Player>().velocity.y = 0;
         col.gameObject.GetComponent<Player>().canDescend = false;
-
+        if (col.gameObject.GetComponent<Player>().fromLeft) { col.gameObject.GetComponent<Player>().canMoveLeft = true; }
+        else { col.gameObject.GetComponent<Player>().canMoveRight = true; }
+        
         if (platform)
         {
             col.gameObject.GetComponent<Player>().platformStart = gameObject.transform.position.x;
@@ -71,7 +73,7 @@ public abstract class Collisions : MonoBehaviour {
     /// Prevents the player from going up through the collided surface
     /// </summary>
     /// <param name="col"></param>
-    void Bottom(Collision2D col)
+    public virtual void Bottom(Collision2D col)
     {
         col.gameObject.transform.position = new Vector2(col.gameObject.transform.position.x, gameObject.transform.position.y -
             col.gameObject.GetComponent<SpriteRenderer>().bounds.size.y);

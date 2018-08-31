@@ -22,6 +22,7 @@ public class Player : Character {
     public bool canMoveLeft; //Used to reenable left movement
     public bool canClimb; //used to reenable climbing up
     public bool canDescend; //used to reenable climbing down
+    public bool fromLeft; //used to determine whether a collision was made from the left or right side.
 
     public float clearHeight; //used to determine how far the player can climb
 
@@ -33,7 +34,7 @@ public class Player : Character {
         accelerationX = new Vector2(0.05F, 0);
         accelerationY = new Vector2(0, 0.15F);
         gravity = new Vector2(0, -0.1F);
-        climbingSpeed = 0.012F; //new Vector2(0, 0.003F);
+        climbingSpeed = 0.025F; //new Vector2(0, 0.003F);
         descendingSpeed = 0.08F; //new Vector2(0, 0.08F);
         movementThisFrame = new Vector2(0, 0);
         stopMultiplier = 0.6F;
@@ -92,12 +93,14 @@ public class Player : Character {
                 canMoveLeft = true;
                 if (climbing)
                 {
+                    Debug.Log("Wyvern");
                     climbing = false;
-                    airborne = true;
+                    //airborne = true;
                 }
             }
             if (Input.GetKey(KeyCode.LeftArrow) && -velocity.x < maxVelocity.x && canMoveLeft)
             {
+                Debug.Log("worms");
                 if (velocity.x > 0)
                 {
                     velocity.x *= stopMultiplier;
@@ -106,8 +109,9 @@ public class Player : Character {
                 canMoveRight = true;
                 if (climbing)
                 {
+                    Debug.Log("nevermore");
                     climbing = false;
-                    airborne = true;
+                    //airborne = true;
                 }
                 
             }
@@ -133,6 +137,7 @@ public class Player : Character {
         {
             if (jumpTimer < maxJump && climbing == false)
             {
+                Debug.Log("what");
                 // Makes jump explosive at the beginning
                 if (jumpTimer < 2)
                 {
@@ -153,9 +158,12 @@ public class Player : Character {
             // The player is in contact with a climbable surface
             else if(climbing == true && canClimb)
             {
+                Debug.Log("fuck");
                 //gameObject.transform.position = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y + climbingSpeed);
                 velocity = new Vector2(velocity.x, climbingSpeed);
                 canDescend = true;
+                canMoveLeft = false;
+                canMoveRight = false;
 
                 //Reenable right and left movement when the player passes the climbable height
                 if (gameObject.transform.position.y >= clearHeight)

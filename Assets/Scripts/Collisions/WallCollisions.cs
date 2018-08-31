@@ -42,4 +42,9 @@ public class WallCollisions : Collisions{
             col.gameObject.GetComponent<Player>().airborne = true;
         }
     }
+
+    public override void Bottom(Collision2D col)
+    {
+        return;
+    }
 }
