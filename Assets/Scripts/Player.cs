@@ -25,6 +25,8 @@ public class Player : Character {
     public bool fromLeft; //used to determine whether a collision was made from the left or right side.
 
     public float clearHeight; //used to determine how far the player can climb
+    public Vector2 wallJumpXAcc; // used to determine the acceleration of the player upon wall jumping.
+    public Vector2 wallJumpYAcc; //used to determine the Y acceleartion of the player upon wall jumping.
 
     public new void Start()
     {
@@ -48,6 +50,8 @@ public class Player : Character {
         canMoveRight = true;
         canClimb = true;
         canDescend = true;
+        wallJumpXAcc = new Vector2(0.6F, 0);
+        wallJumpYAcc = new Vector2(0, 0.6F);
     }
 
     public new void Update() {
@@ -93,14 +97,12 @@ public class Player : Character {
                 canMoveLeft = true;
                 if (climbing)
                 {
-                    Debug.Log("Wyvern");
                     climbing = false;
                     //airborne = true;
                 }
             }
             if (Input.GetKey(KeyCode.LeftArrow) && -velocity.x < maxVelocity.x && canMoveLeft)
             {
-                Debug.Log("worms");
                 if (velocity.x > 0)
                 {
                     velocity.x *= stopMultiplier;
@@ -109,7 +111,6 @@ public class Player : Character {
                 canMoveRight = true;
                 if (climbing)
                 {
-                    Debug.Log("nevermore");
                     climbing = false;
                     //airborne = true;
                 }
@@ -212,8 +213,23 @@ public class Player : Character {
                 if (Input.GetKeyDown(KeyCode.I))
                 {
                     Debug.Log("Status:\tcanClimb: " + canClimb + "\tcanMoveRight: " + canMoveRight + "\tcanMoveLeft: " + canMoveLeft + "\tcanDescend: " + canDescend + "\tclimbing: " + climbing + "\tairborne: " + airborne +
-                        "\tonPlatform: " + onPlatform);
+                        "\tonPlatform: " + onPlatform + "\tfromLeft: " + fromLeft);
                 }
+
+        //WALL JUMPING//
+        if(climbing && canDescend)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                if (fromLeft) { velocity -= wallJumpXAcc; }
+                else { velocity += wallJumpXAcc; }
+                velocity += wallJumpYAcc;
+                airborne = true;
+                climbing = false;
+                canMoveRight = true;
+                canMoveLeft = true;
+            }
+        }
 
         /////////////REENABLING MOVEMENT AND MISCELLNANIOUS////////////////////////////
 
