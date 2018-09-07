@@ -159,7 +159,6 @@ public class Player : Character {
             // The player is in contact with a climbable surface
             else if(climbing == true && canClimb)
             {
-                Debug.Log("fuck");
                 //gameObject.transform.position = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y + climbingSpeed);
                 velocity = new Vector2(velocity.x, climbingSpeed);
                 canDescend = true;
@@ -171,7 +170,7 @@ public class Player : Character {
                 {
                     velocity = new Vector2(velocity.x, 0);
                     onPlatform = true;
-                    if (!canMoveRight) { gameObject.transform.position = new Vector2(gameObject.transform.position.x + 0.05F, gameObject.transform.position.y); }
+                    if (fromLeft) { gameObject.transform.position = new Vector2(gameObject.transform.position.x + 0.05F, gameObject.transform.position.y); }
                     else { gameObject.transform.position = new Vector2(gameObject.transform.position.x - 0.05F, gameObject.transform.position.y);}
                     climbing = false;
                 }
@@ -186,7 +185,7 @@ public class Player : Character {
             canClimb = true;
         }
         //Stops moving down upon key release
-        if(Input.GetKeyUp(KeyCode.DownArrow) && climbing)
+        if (Input.GetKeyUp(KeyCode.DownArrow) && climbing)
         {
             if (climbing) { velocity = new Vector2(velocity.x, 0); }
         }
@@ -195,11 +194,12 @@ public class Player : Character {
         if (Input.GetKeyUp(KeyCode.UpArrow))
         {
             jumpLock = true;
-            if (climbing) { velocity = new Vector2(velocity.x, 0); }
+            if (climbing) {
+                velocity = new Vector2(velocity.x, 0); }
         }
 
-                //Reset remove after development
-                if (Input.GetKeyDown(KeyCode.R))
+        //Reset remove after development
+        if (Input.GetKeyDown(KeyCode.R))
                 {
                     gameObject.transform.position = new Vector2(0, 0);
                     canClimb = true;
